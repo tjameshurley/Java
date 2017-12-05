@@ -1,0 +1,189 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.LinkedList;
+import java.util.*;
+/**
+ * Timothy Hurley
+ * Chpt 21 PC1
+ * This program creates a GUI using swing to demonstrate
+ * a double-ended queue called a deque.
+ * */
+public class HurleyT_DequeGUI2 extends JFrame
+{
+   private JLabel jlblElement = new JLabel("Enter a string: ");
+   private JLabel jlblElement1 = new JLabel("<html>Supported commands: " +
+                                            "<br>addFront" +
+                                            "<br>addRear" +
+                                            "<br>removeFront" +
+                                            "<br>removeRear" +
+                                            "<br>getFront" +
+                                            "<br>getRear" +
+                                            "<br>isEmpty" +
+                                            "<br>size" +
+                                            "<br>toString</html>");
+   private JLabel jlblElement2 = new JLabel("Enter a command: ");
+   private JTextField jtfElement = new JTextField(10);
+   private JTextArea result = new JTextArea(15, 35);
+   private JPanel panel1 = new JPanel();
+   private JPanel panel4 = new JPanel();
+   private Deque dq = new Deque();
+   private JTextField cmdTextField = new JTextField(10);
+
+   public HurleyT_DequeGUI2()
+   {
+       super.setTitle("Deque");
+       setLayout(new FlowLayout());
+       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       setLocationRelativeTo(null);
+
+       panel1.add(jlblElement1);
+       panel1.add(jlblElement);
+       panel1.add(jtfElement);
+
+       panel1.add(jlblElement2);
+       panel1.add(cmdTextField);
+       panel4.add(result);
+
+       add(panel1);
+       add(panel4);
+
+       cmdTextField.addActionListener(new CmdTextListener());
+
+   }
+  /**
+   * CmdTextListener is a private class to listen for commands entered by the user.
+   * */
+ private class CmdTextListener implements ActionListener
+   {
+   public void actionPerformed(ActionEvent e)
+   {
+       //Get the command from the command textfield.
+      String cmdText = cmdTextField.getText();
+
+      //Use a scanner to read the method in the command and
+      //do a switch on it.
+      Scanner sc = new Scanner(cmdText);
+      String cmd = sc.next();
+
+      /**
+       * A switch to test the entry into the command text field.
+       * */
+      switch(cmd)
+      {
+        case "addFront":
+          String str = jtfElement.getText();
+
+           if(str.length() == 0)
+               jtfElement.setText("Enter a string here");
+           else
+           {
+               dq.addFront(str);
+
+               result.setText("'" + str + "' is added at front of the deque.");
+               result.append("\nNow the strings in the deque are...\n");
+               result.append(dq.toString());
+               jtfElement.setText("");
+           }
+           return;
+
+        case "addRear":
+
+           str = jtfElement.getText();
+
+           if(str.length() == 0)
+               jtfElement.setText("Enter a string here");
+           else
+           {
+               dq.addRear(str);
+
+               result.setText("'" + str + "' is added at rear of the deque.");
+               result.append("\nNow the strings in the deque are...\n");
+               result.append(dq.toString());
+               jtfElement.setText("");
+           }
+           return;
+
+        case  "removeFront":
+
+           str = dq.removeFront();
+
+           if(str.length() == 0)
+               result.setText("The deque is empty!");
+           else
+           {
+               result.setText("'" + str + "' is removed from front of the deque.");
+               result.append("\nNow the strings in the deque are...\n");
+               result.append(dq.toString());
+           }
+           return;
+
+        case "removeRear":
+
+           str = dq.removeRear();
+
+           if(str.length() == 0)
+               result.setText("The deque is empty!");
+           else
+           {
+               result.setText("'" + str + "' is removed from rear of the deque.");
+               result.append("\nNow the strings in the deque are...\n");
+               result.append(dq.toString());
+           }
+           return;
+
+        case "getFront":
+           str = dq.getFront();
+
+           if(str.length() == 0)
+               result.setText("The deque is empty!");
+           else
+               result.setText("'" + str + "' is located at front of the deque.");
+           return;
+
+        case "getRear":
+           str = dq.getRear();
+
+           if(str.length() == 0)
+               result.setText("The deque is empty!");
+           else
+               result.setText("'" + str + "' is located at rear of the deque.");
+           return;
+
+
+        case "size":
+           result.setText("The number of strings in the dequeu: " + dq.size());
+           return;
+
+        case  "isEmpty":
+           if(dq.isEmpty())
+               result.setText("Yes, the deque is empty.");
+           else
+               result.setText("No, the deque is not empty.");
+           return;
+
+        case "toString":
+           if(dq.isEmpty())
+           {
+               result.setText("The deque is empty!");
+           }
+           else
+           {
+               result.setText("The strings in the deque are...\n");
+               result.append(dq.toString());
+           }
+           return;
+   }
+   }
+ }
+  /**
+   * Main method creates the GUI demonstarting the deque.
+   * */
+   public static void main(String[] args)
+   {
+       HurleyT_DequeGUI2 frame = new HurleyT_DequeGUI2();
+       frame.setSize(700, 500);
+       frame.setVisible(true);
+
+   }
+}

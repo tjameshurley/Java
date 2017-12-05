@@ -1,0 +1,126 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.LinkedList;
+/**
+ * Timothy Hurley
+ * Chpt 21 PC1
+ * A deque is a list-based collection that allows additions and removals at both ends.
+ * */
+public class HurleyT_Deque
+{
+   private HurleyT_DoubleLinkedListDeque list;
+
+   /**
+    * Constructor
+    * */
+   public HurleyT_Deque()
+   {
+       list = new HurleyT_DoubleLinkedListDeque();
+   }
+
+   /**
+    * addFront method adds an element to the front of the deque.
+    * @param x A String to add to the deque.
+    * @return void.
+    * */
+   public void addFront(String x)
+   {
+       list.addFirst(x);
+   }
+
+    /**
+    * addRear method adds an element to the rear of the deque.
+    * @param x A String to add to the deque.
+    * @return void.
+    * */
+   public void addRear(String x)
+   {
+       list.addLast(x);
+   }
+
+    /**
+    * removeFront method removes an element from the front of the deque.
+    * @param x A String to remove from the deque.
+    * @return String The element removed.
+    * */
+   public String removeFront()
+   {
+       if(list.isEmpty())
+           return "";
+       else
+           return list.removeFirst();
+   }
+
+   /**
+    * removeRear method removes an element from the rear of the deque.
+    * @param x A String to remove from the deque.
+    * @return String The element removed.
+    * */
+   public String removeRear()
+   {
+       if(list.isEmpty())
+           return "";
+       else
+           return list.removeLast();
+   }
+
+   /**
+   The size method returns the length of the deque.
+   @return The number of elements in the deque.
+   */
+   public int size()
+   {
+       return list.size();
+   }
+
+   /**
+   The isEmpty method checks to see
+   if the deque is empty.
+   @return true if list is empty,
+   false otherwise.
+   */
+   public boolean isEmpty()
+   {
+       return list.isEmpty();
+   }
+
+   /**
+ * The getFront method returns the first element from the deque.
+ * @return String the element at the front of the deque.
+ * */
+   public String getFront()
+   {
+       if(list.isEmpty())
+           return "";
+       else
+           return list.getFirst();
+   }
+
+   /**
+ * The getRear method returns the last element from the list.
+ * @return String the element at the end of the list.
+ * */
+   public String getRear()
+   {
+       if(list.isEmpty())
+           return "";
+       else
+           return list.getLast();
+   }
+
+   /**
+   The toString method computes the string
+   representation of the list.
+   @return The string from of the list.
+   */
+   public String toString()
+   {
+       String elements = "";
+
+       for(int i = 0; i < list.size(); i++)
+           elements += list.get(i) + "\n";
+
+       return elements;
+   }
+}
