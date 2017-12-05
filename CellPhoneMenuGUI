@@ -1,0 +1,270 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.DecimalFormat;
+/**
+ * Timothy Hurley
+ * Programming Challenege 13.6
+ * An application that displays a menu system allowing
+ * the user to select a phone, plan, and options. It then shows
+ * the total cost.
+ *
+ * */
+
+
+public class HurleyT_cellPhoneMenu extends JFrame
+{
+  private JMenuBar menuBar;
+  private JMenu fileMenu;
+  private JMenu phoneMenu;
+  private JMenu planMenu;
+  private JMenu optionMenu;
+  private JMenuItem exitItem;
+  private JRadioButtonMenuItem model100_Item;
+  private JRadioButtonMenuItem model110_Item;
+  private JRadioButtonMenuItem model200_Item;
+  private JRadioButtonMenuItem plan300;
+  private JRadioButtonMenuItem plan800;
+  private JRadioButtonMenuItem plan1500;
+  private JCheckBoxMenuItem voiceMail;
+  private JCheckBoxMenuItem textMSG;
+  private JTextField totalField;
+  private JLabel messageLabel;
+  private final int LABEL_WIDTH = 100;
+  private final int LABEL_HEIGHT = 50;
+  private DecimalFormat df = new DecimalFormat("#0.00");
+  private double phoneTotal = 0.0;
+  private double planTotal = 0.0;
+  private double optionTotal = 0.0;
+  private double salesTax = 1.06;
+
+  /**
+   * Constructor
+   * Creats a window with a border layout manager, a menu bar, a label,
+   * and a text field.
+   * @param accepts no args
+   * */
+  public HurleyT_cellPhoneMenu()
+  {
+    setTitle("Cell Phone Packages");
+
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    setLayout(new BorderLayout());
+
+    messageLabel = new JLabel("Use the menu bar to select a phone, a plan, and any added options.");
+
+    messageLabel.setPreferredSize(new Dimension(LABEL_WIDTH, LABEL_HEIGHT));
+
+    add(messageLabel, BorderLayout.NORTH);
+
+    totalField = new JTextField(40);
+
+    add(totalField, BorderLayout.CENTER);
+
+    buildMenuBar();
+
+    pack();
+
+    setVisible(true);
+
+    setLocationRelativeTo(null);
+
+  }
+ /**
+  * The buildMenuMar method creates a menu bar to hold the menus for
+  * selecting the phone, plan, options, and to exit the window.
+  * It also sets a label with directions and a text field to
+  * display the total cost of the choices.
+  * @param Accepts no args
+  * @return void
+  * */
+  private void buildMenuBar()
+  {
+    menuBar = new JMenuBar();
+
+    buildFileMenu();
+    buildPhoneMenu();
+    buildPlanMenu();
+    buildOptionMenu();
+
+    menuBar.add(fileMenu);
+    menuBar.add(phoneMenu);
+    menuBar.add(planMenu);
+    menuBar.add(optionMenu);
+
+    setJMenuBar(menuBar);
+  }
+  /**
+  * The buildFileMenu method creates a menu with one
+  * option to exit the window.
+  * @param Accepts no args
+  * @return void
+  * */
+
+  private void buildFileMenu()
+  {
+    //Create an Exit menu item.
+    exitItem = new JMenuItem("Exit");
+    exitItem.setMnemonic(KeyEvent.VK_X);
+    exitItem.addActionListener(new ExitListener());
+
+    //Create a JMenu object for the File menu.
+    fileMenu = new JMenu("File");
+    fileMenu.add(exitItem);
+  }
+  /**
+  * The buildPhoneMenu method creates a menu with radio buttons
+  * to select a phone.
+  * @param Accepts no args
+  * @return void
+  * */
+  private void buildPhoneMenu()
+  {
+    model100_Item = new JRadioButtonMenuItem("Model 100: $29.95", true);
+    model100_Item.addActionListener(new PhoneListener());
+
+    model110_Item = new JRadioButtonMenuItem("Model 110: $49.95");
+    model110_Item.addActionListener(new PhoneListener());
+
+    model200_Item = new JRadioButtonMenuItem("Model 200: $99.95");
+    model200_Item.addActionListener(new PhoneListener());
+
+    ButtonGroup groupPhone = new ButtonGroup();
+
+    groupPhone.add(model100_Item);
+    groupPhone.add(model110_Item);
+    groupPhone.add(model200_Item);
+
+    phoneMenu = new JMenu("Phones");
+
+    phoneMenu.add(model100_Item);
+    phoneMenu.add(model110_Item);
+    phoneMenu.add(model200_Item);
+  }
+  /**
+  * The buildPlanMenu method creates a menu with radio buttons
+  * to select a plan.
+  * @param Accepts no args
+  * @return void
+  * */
+  private void buildPlanMenu()
+  {
+    plan300 = new JRadioButtonMenuItem("300 minute plan",true);
+    plan300.addActionListener(new PlanListener());
+
+    plan800 = new JRadioButtonMenuItem("800 minute plan");
+    plan800.addActionListener(new PlanListener());
+
+    plan1500 = new JRadioButtonMenuItem("1500 minute plan");
+    plan1500.addActionListener(new PlanListener());
+
+    ButtonGroup groupPlan = new ButtonGroup();
+
+    groupPlan.add(plan300);
+    groupPlan.add(plan800);
+    groupPlan.add(plan1500);
+
+    planMenu = new JMenu("Plans");
+
+    planMenu.add(plan300);
+    planMenu.add(plan800);
+    planMenu.add(plan1500);
+
+  }
+  /**
+  * The buildOptionMenu method creates a menu with check boxes
+  * to select any added options.
+  * @param Accepts no args
+  * @return void
+  * */
+  private void buildOptionMenu()
+  {
+    voiceMail = new JCheckBoxMenuItem("Voice Mail");
+    voiceMail.addActionListener(new OptionListener());
+
+    textMSG = new JCheckBoxMenuItem("Text Messaging");
+    textMSG.addActionListener(new OptionListener());
+
+    optionMenu = new JMenu("Options");
+
+    optionMenu.add(voiceMail);
+    optionMenu.add(textMSG);
+  }
+  /**
+   * Private class ExitListener closes the application when the
+   * exit button is selected.
+   * */
+
+  private class ExitListener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      System.exit(0);
+    }
+  }
+  /**
+   * Private class PhoneListener adds the cost of the phone item
+   * selected and adds it to the total displayed in the text field.
+   * */
+  private class PhoneListener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      if (model100_Item.isSelected())
+        phoneTotal = 29.95;
+      else if (model110_Item.isSelected())
+        phoneTotal = 49.95;
+      else if (model200_Item.isSelected())
+        phoneTotal = 99.95;
+
+      phoneTotal *= salesTax;
+
+      totalField.setText("$" + df.format(planTotal + phoneTotal + optionTotal));
+    }
+  }
+  /**
+   * Private class PlanListener adds the cost of the plan item
+   * selected and adds it to the total displayed in the text field.
+   * */
+  private class PlanListener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      if (plan300.isSelected())
+        planTotal = 45.00;
+      else if (plan800.isSelected())
+        planTotal = 65.00;
+      else if (plan1500.isSelected())
+        planTotal = 99.00;
+
+      totalField.setText("$" + df.format(planTotal + phoneTotal + optionTotal));
+    }
+  }
+    /**
+   * Private class OptionListener adds the cost of the option items
+   * selected and adds them to the total displayed in the text field.
+   * */
+    private class OptionListener implements ActionListener
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        int holder = 0;
+        if (voiceMail.isSelected())
+          holder += 5.00;
+        if (textMSG.isSelected())
+          holder += 10.00;
+        optionTotal = holder;
+
+        totalField.setText("$" + df.format(planTotal + phoneTotal + optionTotal));
+      }
+    }
+
+  /**
+   * Main method with an instance of HurleyT_cellPhoneMenu class.
+   * */
+    public static void main(String[] args)
+    {
+      new HurleyT_cellPhoneMenu();
+    }
+}
